@@ -32,8 +32,13 @@ class HomeTableViewController: UITableViewController {
         tableView.refreshControl = tweetRefreshControl
         
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 65
+        tableView.estimatedRowHeight = 150
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        loadTweets()
     }
     
     @objc func loadTweets() {
@@ -101,6 +106,12 @@ class HomeTableViewController: UITableViewController {
         
         cell.profilePictureView.layer.cornerRadius = cell.profilePictureView.frame.size.width / 2
         cell.profilePictureView.clipsToBounds = true
+        
+        // See if the tweet is favorited or not (by the current user)
+        cell.setFavorite(tweetArray[indexPath.row]["favorited"] as! Bool)
+        cell.tweetId = tweetArray[indexPath.row]["id"] as! Int
+        cell.setRetweeted(tweetArray[indexPath.row]["retweeted"] as! Bool)
+        
         
         return cell
     }
